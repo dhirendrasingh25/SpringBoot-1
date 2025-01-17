@@ -6,21 +6,35 @@ package com.dhirendra.first.project.controllers;
 // DELETE /employees/{id}
 
 import com.dhirendra.first.project.dto.EmployeeDTO;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.dhirendra.first.project.services.EmployeeService;
+import jakarta.websocket.server.PathParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 
 @RestController
+@RequestMapping(path = "/employees")
 public class EmployeeController {
 
-    @GetMapping(path="/employees")
-    public EmployeeDTO getEmployees() {
-        return new EmployeeDTO(
-                12L,
-                "Sameer",
-                LocalDate.of(2024, 1, 1),
-                true
-        );
+    private final EmployeeService employeeService;
+
+    public EmployeeController(EmployeeService employeeService) {
+        this.employeeService = employeeService;
+    }
+
+    @GetMapping(path="/{id}")
+    public EmployeeDTO getEmployees(@PathVariable("id") Long employeeId) {
+        return  employeeService.getEmployeeById(employeeId);
+    }
+
+    // employees?sortBy=color
+    @GetMapping(path = "/")
+    public String getData(@PathParam("sortBy") String sortBy , @PathParam("limit") String limit) {
+        return "Hello  " + sortBy;
+    }
+
+    @PostMapping(path = "/")
+    public EmployeeDTO createNewEmployee(@RequestBody EmployeeDTO employeeDTO) {
+        return employeeService.createNewEmployee(employeeDTO);
     }
 }

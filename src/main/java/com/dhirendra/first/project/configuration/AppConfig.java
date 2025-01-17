@@ -3,6 +3,7 @@ package com.dhirendra.first.project.configuration;
 import com.dhirendra.first.project.DB;
 import com.dhirendra.first.project.DevDB;
 import com.dhirendra.first.project.ProdDB;
+import org.modelmapper.ModelMapper;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,5 +21,10 @@ public class AppConfig {
     @ConditionalOnProperty(name="project.mode",havingValue = "development")
     public DB getDevDBBean(){
         return new DevDB();
+    }
+
+    @Bean
+    public ModelMapper getModelMapper(){
+        return new ModelMapper();
     }
 }
