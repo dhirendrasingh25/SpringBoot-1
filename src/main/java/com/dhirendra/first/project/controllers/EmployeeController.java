@@ -11,6 +11,7 @@ import jakarta.websocket.server.PathParam;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @RestController
 @RequestMapping(path = "/employees")
@@ -28,13 +29,18 @@ public class EmployeeController {
     }
 
     // employees?sortBy=color
-    @GetMapping(path = "/")
-    public String getData(@PathParam("sortBy") String sortBy , @PathParam("limit") String limit) {
-        return "Hello  " + sortBy;
-    }
+//    @GetMapping
+//    public String getData(@PathParam("sortBy") String sortBy , @PathParam("limit") String limit) {
+//        return "Hello  " + sortBy;
+//    }
 
-    @PostMapping(path = "/")
+    @PostMapping
     public EmployeeDTO createNewEmployee(@RequestBody EmployeeDTO employeeDTO) {
         return employeeService.createNewEmployee(employeeDTO);
+    }
+
+    @GetMapping
+    public List<EmployeeDTO> getAllEmployees() {
+        return employeeService.getAllEmployees();
     }
 }
